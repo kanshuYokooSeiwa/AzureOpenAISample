@@ -42,6 +42,32 @@ TIMELINE_INTERVAL_SECONDS=300
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
+### 3.1 Stop the Server
+
+- Foreground run (terminal shows Uvicorn logs): press Ctrl + C
+- If started in background or terminal was closed:
+
+```zsh
+# Find the process using port 8000
+lsof -i :8000
+
+# Kill by PID (replace <PID> with the number from the previous command)
+kill <PID>
+
+# Or kill all uvicorn processes (use with care)
+pkill -f uvicorn
+```
+
+Verify shutdown:
+
+```zsh
+# Should fail or return connection refused
+curl http://localhost:8000/health
+
+# Port should show no output when stopped
+lsof -i :8000
+```
+
 ### 4. Test the API
 
 Open another terminal and try:
